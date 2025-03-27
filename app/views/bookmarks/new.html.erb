@@ -1,0 +1,17 @@
+<h1>Agregar película a <%= @list.name %></h1>
+
+<%= form_with model: @bookmark, url: list_bookmarks_path(@list), local: true do |form| %>
+  <div>
+    <%= form.label :movie_id, "Seleccionar Película" %>
+    <%= form.collection_select :movie_id, Movie.all, :id, :title, prompt: "Elige una película" %>
+  </div>
+
+  <div>
+    <%= form.label :comment %>
+    <%= form.text_field :comment, required: true %>
+  </div>
+
+  <%= form.submit "Agregar Bookmark", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to "Volver", list_path(@list), class: "btn btn-secondary" %>
