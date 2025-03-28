@@ -8,20 +8,20 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-puts "Borrando datos anteriores..."
+require 'json'
+require 'open-uri'
+puts "Cleaning database..."
 Bookmark.destroy_all
 Movie.destroy_all
-List.destroy_all
 
-puts "Creando películas..."
-movies = [
-  { title: "Inception", overview: "A mind-bending thriller about dream invasion.", poster_url: "https://image.tmdb.org/t/p/original/inception.jpg", rating: 8.8 },
-  { title: "The Dark Knight", overview: "Batman faces the Joker in Gotham City.", poster_url: "https://image.tmdb.org/t/p/original/dark_knight.jpg", rating: 9.0 },
-  { title: "Interstellar", overview: "A journey beyond our galaxy.", poster_url: "https://image.tmdb.org/t/p/original/interstellar.jpg", rating: 8.6 }
-]
-
+url = 'https://tmdb.lewagon.com/movie/top_rated'
+html_doc = URI.open(url).read
+movies = JSON.parse(html_doc)["results"]
 movies.each do |movie|
-  Movie.create!(movie)
+  Movie.create!(
+    title: movie["title"],
+    overview: movie["overview"],
+    poster_url: "https://image.tmdb.org/t/p/w500#{movie['poster_path']}",
+    rating: movie['vote_average']
+  )
 end
-
-puts "Películas creadas exitosamente."

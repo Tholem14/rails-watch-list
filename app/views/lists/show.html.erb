@@ -4,7 +4,7 @@
 <ul>
   <% @list.bookmarks.each do |bookmark| %>
     <li>
-      <strong><%= bookmark.movie.title %></strong> - <%= bookmark.comment %>
+      <strong><%= bookmark.movie.title %></strong> - <%= bookmark.comment %> -  <img src="<%= bookmark.movie.poster_url %>" class="card-img-top" alt="<%= bookmark.movie.title %>">
       <%= link_to "Eliminar", bookmark_path(bookmark), method: :delete, data: { confirm: "¿Seguro que quieres eliminar este bookmark?" }, class: "btn btn-danger" %>
     </li>
   <% end %>
